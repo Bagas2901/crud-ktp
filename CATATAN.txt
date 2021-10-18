@@ -1,8 +1,0 @@
-php artisan migrate --seed
-
-API
-Menampilkan data 		: /tampil
-Simpan data 			: /simpan
-Menampilkan data berdasrkan id 	: /tampil_data/{id}
-Update data			: /update/{id}
-Hapus data 			: /hapus/{id}
