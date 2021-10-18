@@ -35,11 +35,6 @@ class KTP extends Model
     	return static::create($input);
     }
 
-    public function collection()
-    {
-        return static::all();
-    }
-
     public function findData($id)
     {
         return static::find($id);

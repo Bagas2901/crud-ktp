@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\KTP;
 use Carbon\Carbon;
-use Maatwebsite\Excel\Excel;
+use App\Exports\KTPExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KTPController extends Controller
 {
@@ -50,9 +51,22 @@ class KTPController extends Controller
         ]);
     }
 
-    public function export_excel(KTP $ktp)
+    //export excel
+    public function export_excel()
 	{
-		return Excel::download(new $ktp->collection(), 'siswa.xlsx');
+		return Excel::download(new KTPExport, 'data_ktp_'.time(). '.xlsx');
+	}
+
+    //export csv
+    public function export_csv()
+	{
+		return Excel::download(new KTPExport, 'data_ktp_'.time(). '.csv');
+	}
+
+    //export pdf
+    public function export_pdf()
+	{
+        return Excel::download(new KTPExport, 'data_ktp_'.time(). '.pdf');
 	}
 
     //Cek NIK pada database 

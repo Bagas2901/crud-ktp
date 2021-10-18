@@ -289,7 +289,7 @@
 
                 username = $(this).val();
                 $.ajax({
-                    url: "cek_username/" + username,
+                    url: "/user/cek_username/" + username,
                     method: 'GET',
                     success: function(result) {
                         if (result.error) {
@@ -319,7 +319,7 @@
 
                 if (username != username_lama) {
                     $.ajax({
-                        url: "cek_username/" + username,
+                        url: "/user/cek_username/" + username,
                         method: 'GET',
                         success: function(result) {
                             if (result.error) {
@@ -348,7 +348,7 @@
 
                 email = $(this).val();
                 $.ajax({
-                    url: "cek_email/" + email,
+                    url: "/user/cek_email/" + email,
                     method: 'GET',
                     success: function(result) {
                         if (result.error) {
@@ -378,7 +378,7 @@
 
                 if (email != email_lama) {
                     $.ajax({
-                        url: "cek_email/" + email,
+                        url: "/user/cek_email/" + email,
                         method: 'GET',
                         success: function(result) {
                             if (result.error) {
@@ -473,7 +473,7 @@
 
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "simpan_user/",
+                    url: "/user/simpan/",
                     method: 'post',
                     data: formData,
                     cache: false,
@@ -508,7 +508,7 @@
                 // e.preventDefault();
                 id = $(this).data('id');
                 $.ajax({
-                    url: "action_user/" + id + "/edit",
+                    url: "/user/action/" + id + "/edit",
                     method: 'GET',
                     success: function(result) {
                         // console.log(result);
@@ -545,7 +545,7 @@
 
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "update_user/" + id,
+                    url: "/user/update/" + id,
                     method: 'POST',
                     data: formData,
                     cache: false,
@@ -596,7 +596,7 @@
                     preConfirm: function() {
                         return new Promise(function(resolve) {
                             $.ajax({
-                                    url: "action_user/" + id,
+                                    url: "/user/action/" + id,
                                     method: 'DELETE',
                                 })
                                 //sukses

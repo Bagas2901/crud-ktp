@@ -222,10 +222,6 @@
             var table = $('.yajra-datatable-ktp').DataTable({
                 processing: true,
                 serverSide: true,
-                dom: 'Bfrtip',
-    buttons: [
-        'copy', 'csv', 'excel', 'pdf', 'print'
-    ],
                 ajax: "{{ route('ktp') }}",
                 columns: [{
                         data: 'DT_RowIndex',

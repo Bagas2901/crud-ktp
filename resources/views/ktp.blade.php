@@ -18,7 +18,12 @@
                         </div>
                     </div>
                     <div class="card-body">
-
+                        <div class="mb-3">
+                            <a href="/ktp/export_csv" style="width:60px;" target="_blank" class="btn btn-success me-1">CSV</a>
+                            <a href="/ktp/export_excel" style="width:60px;" target="_blank" class="btn btn-success me-1">Excel</a>
+                            <a href="/ktp/export_pdf" style="width:60px;" target="_blank" class="btn btn-success me-1">PDF</a>
+                        </div>
+                        
                         <div class="box-body table-responsive">
                             <!-- tabel Pelatihan -->
                             <table class="yajra-datatable-ktp table table-bordered table-hover">
@@ -540,7 +545,7 @@
 
                 nik = $(this).val();
                 $.ajax({
-                    url: "cek_nik/" + nik,
+                    url: "/ktp/cek_nik/" + nik,
                     method: 'GET',
                     success: function(result) {
                         if (result.error) {
@@ -570,7 +575,7 @@
 
                 if (nik != nik_lama) {
                     $.ajax({
-                        url: "cek_nik/" + nik,
+                        url: "/ktp/cek_nik/" + nik,
                         method: 'GET',
                         success: function(result) {
                             if (result.error) {
@@ -632,7 +637,7 @@
 
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "simpan/",
+                    url: "/ktp/simpan/",
                     method: 'post',
                     data: formData,
                     cache: false,
@@ -667,7 +672,7 @@
                 // e.preventDefault();
                 id = $(this).data('id');
                 $.ajax({
-                    url: "action_ktp/" + id + "/edit",
+                    url: "/ktp/action/" + id + "/edit",
                     method: 'GET',
                     // data: {
                     //     id: id,
@@ -727,7 +732,7 @@
 
                 var formData = new FormData(this);
                 $.ajax({
-                    url: "update/" + id,
+                    url: "/ktp/update/" + id,
                     method: 'POST',
                     data: formData,
                     cache: false,
@@ -778,7 +783,7 @@
                     preConfirm: function() {
                         return new Promise(function(resolve) {
                             $.ajax({
-                                    url: "action_ktp/" + id,
+                                    url: "/ktp/action/" + id,
                                     method: 'DELETE',
                                 })
                                 //sukses
