@@ -2,6 +2,13 @@
 
 
 Aplikasi CRUD KTP sederhana
+- Login 2 Role. Admin & User
+- Create Data KTP & User
+- Read Data KTP & User
+- Update Data KTP & User
+- Delete Data KTP & User
+- Export Data KTP csv,xlsx dan pdf
+- Import File csv. File ada di root dengan demo_import_ktp.csv
 
 Clone
 - https://github.com/Bagas2901/crud-ktp.git
