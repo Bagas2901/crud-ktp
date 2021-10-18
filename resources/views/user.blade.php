@@ -140,7 +140,7 @@
                                         <div class="form-group">
                                             <label>Foto</label>
                                             <input style="color: black; width: 100%;" type="file" accept="image/*"
-                                                onchange="return validasiFoto()" name="foto" id="foto">
+                                                onchange="return validasiFoto()" name="foto" id="foto" required>
                                             <b><label style="color:red;">File .jpg/.jpeg/.png</label></b>
                                         </div>
                                     </div>

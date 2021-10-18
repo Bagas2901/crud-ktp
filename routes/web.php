@@ -35,6 +35,8 @@ Route::get('/ktp/export_excel', [KTPController::class, 'export_excel']);
 Route::get('/ktp/export_csv', [KTPController::class, 'export_csv']);
 //Route Export pdf
 Route::get('/ktp/export_pdf', [KTPController::class, 'export_pdf']);
+//Route Import  csv
+Route::post('/ktp/import', [KTPController::class, 'import']);
 
 //Route User
 Route::get('/user', [UserController::class, 'index'])->name('user');

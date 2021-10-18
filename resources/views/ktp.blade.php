@@ -19,11 +19,17 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <a href="/ktp/export_csv" style="width:60px;" target="_blank" class="btn btn-success me-1">CSV</a>
-                            <a href="/ktp/export_excel" style="width:60px;" target="_blank" class="btn btn-success me-1">Excel</a>
-                            <a href="/ktp/export_pdf" style="width:60px;" target="_blank" class="btn btn-success me-1">PDF</a>
+                            <a href="/ktp/export_csv" style="width:60px;" target="_blank"
+                                class="btn btn-success me-1">CSV</a>
+                            <a href="/ktp/export_excel" style="width:60px;" target="_blank"
+                                class="btn btn-success me-1">Excel</a>
+                            <a href="/ktp/export_pdf" style="width:60px;" target="_blank"
+                                class="btn btn-success me-1">PDF</a>
+
+                            <a data-toggle="modal" title="Klik untuk import file" href="#importData"
+                                class="float-lg-right btn btn-primary me-1"><i class="fas fa-upload"></i> Import</a>
                         </div>
-                        
+
                         <div class="box-body table-responsive">
                             <!-- tabel Pelatihan -->
                             <table class="yajra-datatable-ktp table table-bordered table-hover">
@@ -65,6 +71,41 @@
 @endsection
 
 @section('modal')
+
+    <!-- Modal Import File -->
+    <div class="modal fade" id="importData">
+        <div class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Import File</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body modal-edit">
+                    <form id="Import" action="javascript:void(0)" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>File</label>
+                                    <input style="color: black; width: 100%;" type="file" accept=".csv"
+                                        onchange="return validasiFile()" name="file" id="file" required>
+                                    <b><label style="color:red;">Hanya Menerima File .csv</label></b>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="card-footer text-right">
+                    <button name="import" id="import" type="submit" class="btn btn-primary">Import</button>
+                </div>
+            </div>
+            </form>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
     <!-- Modal Tambah Data -->
     <div class="modal fade" id="tambahData">
@@ -238,13 +279,14 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5">
-                                        <img hidden src="" alt="preview image" style="width: 55%;" id="image" name="image" />
+                                        <img hidden src="" alt="preview image" style="width: 55%;" id="image"
+                                            name="image" />
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Foto</label>
                                             <input style="color: black; width: 100%;" type="file" accept="image/*"
-                                                onchange="return validasiFoto()" name="foto" id="foto">
+                                                onchange="return validasiFoto()" name="foto" id="foto" required>
                                             <b><label style="color:red;">File .jpg/.jpeg/.png</label></b>
                                         </div>
                                     </div>
@@ -626,6 +668,61 @@
 
             });
 
+            // Import file csv dengan Ajax.
+            $('#Import').submit(function(e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                var formData = new FormData(this);
+                $.ajax({
+                    url: "/ktp/import",
+                    method: 'post',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: (data) => {
+                        this.reset();
+                        if (data.error) {
+                            iziToast.error({
+                                title: 'Perhatian !',
+                                message: data.error,
+                                position: 'topCenter'
+                            });
+                            //hide modal
+                            $('#importData').modal('hide');
+                            //load table ketika klik OK
+                            $('.yajra-datatable-ktp')
+                                .DataTable()
+                                .ajax.reload();
+                        }else{
+                            iziToast.success({
+                                title: 'Perhatian !',
+                                message: data.success,
+                                position: 'topCenter'
+                            });
+                            //hide modal
+                            $('#importData').modal('hide');
+                            //load table ketika klik OK
+                            $('.yajra-datatable-ktp')
+                                .DataTable()
+                                .ajax.reload();
+                        }
+                    },
+                    error: function(data) {
+                        iziToast.error({
+                            title: 'Peringatan !',
+                            message: "File gagal di import!",
+                            position: 'topCenter'
+                        });
+                    }
+                });
+            });
+
             // Menambahkan Data dengan Ajax.
             $('#SimpanData').submit(function(e) {
                 e.preventDefault();
@@ -809,6 +906,21 @@
                 });
             }
         });
+
+        function validasiFile() {
+            var inputFile = document.getElementById('file');
+            var pathFile = inputFile.value;
+            var ekstensiOk = /(\.csv)$/i;
+            if (!ekstensiOk.exec(pathFile)) {
+                iziToast.error({
+                    title: 'Perhatian !',
+                    message: 'Silakan upload file dengan ekstensi .csv!',
+                    position: 'topCenter'
+                });
+                inputFile.value = '';
+                return false;
+            }
+        }
 
         function validasFoto() {
             var inputFile = document.getElementById('foto');

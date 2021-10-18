@@ -7,6 +7,7 @@ use Yajra\DataTables\DataTables;
 use App\Models\KTP;
 use Carbon\Carbon;
 use App\Exports\KTPExport;
+use App\Imports\KTPImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class KTPController extends Controller
@@ -68,6 +69,18 @@ class KTPController extends Controller
 	{
         return Excel::download(new KTPExport, 'data_ktp_'.time(). '.pdf');
 	}
+
+    //import csv file
+    public function import() 
+    {
+        $import = Excel::import(new KTPImport,request()->file('file'));
+
+        if ($import) {
+            return response()->json(['success' => 'File berhasil di import!']);
+        } else {
+            return response()->json(['error' => 'File gagal di import!']);
+        }
+    }
 
     //Cek NIK pada database 
     public function cek_nik($nik)
