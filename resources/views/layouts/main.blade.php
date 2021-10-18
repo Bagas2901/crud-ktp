@@ -59,11 +59,14 @@
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="{{ asset('img/avatar/default.png') }}" class="rounded-circle mr-1">
-                            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
+                            <img alt="image" src="{{ asset('img/avatar/' . auth()->user()->foto) }}"
+                                class="rounded-circle mr-1">
+                            <div class="d-sm-none d-lg-inline-block">Hi,
+                                {{ auth()->user()->is_admin == '0' ? 'User' : 'Admin' }}
+                                {{ auth()->user()->name }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="#" class="dropdown-item has-icon text-danger">
+                            <a href="logout" class="dropdown-item has-icon text-danger">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </a>
                         </div>
@@ -80,17 +83,21 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">Data KTP</li>
-                        <li class="">
+                        <li class="{{ $title === 'KTP' ? 'active' : '' }}">
                             <a href="/ktp" class="nav-link"><i class="fas fa-id-card"></i><span>KTP</span></a>
                         </li>
-                        <li class="menu-header">Data User</li>
-                        <li class="">
-                            <a href="/user" class="nav-link"><i class="fas fa-users"></i><span>User</span></a>
-                        </li>
+                        <div {{ auth()->user()->is_admin == '0' ? 'hidden' : '' }}>
+                            <li class="menu-header">Data User</li>
+                            <li class="{{ $title === 'User' ? 'active' : '' }}">
+                                <a href="/user" class="nav-link"><i
+                                        class="fas fa-users"></i><span>User</span></a>
+                            </li>
+                        </div>
+
                     </ul>
 
                     <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-                        <a href="https://getstisla.com/docs" class="btn btn-danger btn-lg btn-block btn-icon-split">
+                        <a href="logout" class="btn btn-danger btn-lg btn-block btn-icon-split">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </a>
                     </div>
@@ -275,18 +282,21 @@
                         data: 'foto',
                         name: 'foto'
                     },
-                    {
+                    @if (auth()->user()->is_admin != '0')
+                        {
                         data: 'action',
                         name: 'action',
                         orderable: true,
                         searchable: true
-                    },
+                        },
+                    @endif
+
                 ],
             });
 
             // hapus data KTP 
             $(document).ready(function() {
-                
+
             });
 
         });

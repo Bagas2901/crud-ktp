@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>Tabel Data KTP</h4>
-                        <div class="col">
+                        <div {{ (auth()->user()->is_admin == '0') ? 'hidden' : '' }} class="col">
                             <a data-toggle="modal" title="Klik untuk menambah data" href="#tambahData"
                                 class="btn btn-primary btn-md float-right">Tambah Data </i></a>
                         </div>
@@ -26,7 +26,7 @@
                             <a href="/ktp/export_pdf" style="width:60px;" target="_blank"
                                 class="btn btn-success me-1">PDF</a>
 
-                            <a data-toggle="modal" title="Klik untuk import file" href="#importData"
+                            <a {{ (auth()->user()->is_admin == '0') ? 'hidden' : '' }} data-toggle="modal" title="Klik untuk import file" href="#importData"
                                 class="float-lg-right btn btn-primary me-1"><i class="fas fa-upload"></i> Import</a>
                         </div>
 
@@ -53,7 +53,7 @@
                                         </th>
                                         <th class="title-center" style="font-size:1em; text-align:center;">Berlaku</th>
                                         <th class="title-center" style="font-size:1em; text-align:center;">Foto</th>
-                                        <th class="title-center" style="font-size:1em; text-align:center;">Action</th>
+                                        <th {{ (auth()->user()->is_admin == '0') ? 'hidden' : '' }} class="title-center" style="font-size:1em; text-align:center;">Action</th>
                                     </tr>
                                 </thead>
                                 <!-- Tbody -->

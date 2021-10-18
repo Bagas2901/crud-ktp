@@ -18,12 +18,14 @@ class KTPController extends Controller
         //menampilkan datatable serverside
         if ($request->ajax()) {
             $data = KTP::latest()->get();
-            return DataTables::of($data)
+            $datatable = DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
-                    $actionBtn = '<a data-id="' . $data->id . '" id="editktp" href="javascript:void(0)" style="width:50%;" class="edit btn btn-warning btn-sm"><i class="fas fa-edit"> </i></a> 
+                    if (auth()->user()->is_admin != '0') {
+                        $actionBtn = '<a data-id="' . $data->id . '" id="editktp" href="javascript:void(0)" style="width:50%;" class="edit btn btn-warning btn-sm"><i class="fas fa-edit"> </i></a> 
                                   <a data-id="' . $data->id . '" id="hapusktp" href="javascript:void(0)" style="width:50%;" class="delete btn btn-danger btn-sm"><i class="fas fa-trash"> </i></a>';
-                    return $actionBtn;
+                        return $actionBtn;
+                    }
                 })
                 ->editColumn('jk', function ($data) {
                     if ($data->jk == 'l') return 'Laki-Laki';
@@ -44,6 +46,8 @@ class KTPController extends Controller
                 })
                 ->rawColumns(['foto', 'action'])
                 ->make(true);
+
+            return $datatable;
         }
 
         //call view
@@ -54,26 +58,26 @@ class KTPController extends Controller
 
     //export excel
     public function export_excel()
-	{
-		return Excel::download(new KTPExport, 'data_ktp_'.time(). '.xlsx');
-	}
+    {
+        return Excel::download(new KTPExport, 'data_ktp_' . time() . '.xlsx');
+    }
 
     //export csv
     public function export_csv()
-	{
-		return Excel::download(new KTPExport, 'data_ktp_'.time(). '.csv');
-	}
+    {
+        return Excel::download(new KTPExport, 'data_ktp_' . time() . '.csv');
+    }
 
     //export pdf
     public function export_pdf()
-	{
-        return Excel::download(new KTPExport, 'data_ktp_'.time(). '.pdf');
-	}
+    {
+        return Excel::download(new KTPExport, 'data_ktp_' . time() . '.pdf');
+    }
 
     //import csv file
-    public function import() 
+    public function import()
     {
-        $import = Excel::import(new KTPImport,request()->file('file'));
+        $import = Excel::import(new KTPImport, request()->file('file'));
 
         if ($import) {
             return response()->json(['success' => 'File berhasil di import!']);
@@ -163,7 +167,7 @@ class KTPController extends Controller
 
                 $input['foto'] = time() . '.' . $request->file('foto_baru')->getClientOriginalExtension();
                 $request->foto_baru->move(public_path('img/avatar'), $input['foto']);
-            }else{
+            } else {
                 $input['foto'] = time() . '.' . $request->file('foto_baru')->getClientOriginalExtension();
                 $request->foto_baru->move(public_path('img/avatar'), $input['foto']);
             }

@@ -23,15 +23,18 @@ class UserController extends Controller
                     return $actionBtn;
                 })
                 ->editColumn('role', function ($data) {
-                    if ($data->is_admin == '1') return 'Admin';
-                    if ($data->is_admin == '0') return 'User';
-                    return '-';
+                    if ($data->is_admin == '1') {
+                        $badge = '<span class="badge badge-dark">Admin</span>';
+                    } else {
+                        $badge = '<span class="badge badge-info">User</span>';
+                    }
+                    return $badge;
                 })
                 ->addColumn('foto', function ($data) {
                     $url = asset("img/avatar_users/$data->foto");
                     return '<img alt="image" src="' . $url . '" border="1" width="100" class="img-rounded" align="center">';
                 })
-                ->rawColumns(['foto', 'action'])
+                ->rawColumns(['foto', 'action', 'role'])
                 ->make(true);
         }
 
@@ -120,9 +123,9 @@ class UserController extends Controller
             }
         }
 
-        if($request->konfirm_password == null){
+        if ($request->konfirm_password == null) {
             $input['password'] = $data->password;
-        }else{
+        } else {
             $input['password'] = Hash::make($request->konfirm_password);
         }
 

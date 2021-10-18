@@ -34,7 +34,8 @@
 						<img src="{{ asset('img/stisla-fill.svg') }}" alt="logo" width="80" class="shadow-light rounded-circle mb-5 mt-2">
 						<h4 class="text-dark font-weight-normal">Selamat Datang di Apliaksi<span class="font-weight-bold text-primary ">Create, Read, Update, Delete KTP</span></h4>
 						<p class="text-muted">Sebelum melanjutkan ke aktivitas anda, silahkan login terlebih dahulu.</p>
-						<form method="POST" action="" class="needs-validation" novalidate="">
+						<form method="POST" action="proses_login" class="needs-validation" novalidate="">
+							@csrf
 							<div class="form-group">
 								<label for="username">Username</label>
 								<input id="username" type="text" class="form-control" name="username" tabindex="1" required autofocus>

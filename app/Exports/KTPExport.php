@@ -9,12 +9,13 @@ use Maatwebsite\Excel\Concerns\WithProperties;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class KTPExport implements FromCollection, WithHeadings, WithProperties, WithEvents
+class KTPExport implements FromCollection, WithHeadings, WithProperties, WithEvents, WithMapping
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return KTP::all();
@@ -23,7 +24,6 @@ class KTPExport implements FromCollection, WithHeadings, WithProperties, WithEve
     public function headings(): array
     {
         return [
-            'No',
             'NIK',
             'Nama',
             'Tmp Lahir',
@@ -37,18 +37,35 @@ class KTPExport implements FromCollection, WithHeadings, WithProperties, WithEve
             'Warga Negara',
             'Berlaku',
             'Foto',
-            'Create',
-            'Update',
         ];
+    }
+
+    public function map($row): array
+    {
+        $fields = [
+            $row->nik,
+            $row->nama,
+            $row->tmp_lahir,
+            $row->tgl_lahir,
+            $row->jk,
+            $row->gol_darah,
+            $row->alamat,
+            $row->agama,
+            $row->status,
+            $row->pekerjaan,
+            $row->kewarganegaraan,
+            $row->berlaku,
+            $row->foto,
+        ];
+        return $fields;
     }
 
     public function registerEvents(): array
     {
         return [
-       
-            AfterSheet::class    => function(AfterSheet $event) {
+
+            AfterSheet::class    => function (AfterSheet $event) {
                 $event->sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A3)->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
-            
             },
         ];
     }
@@ -60,5 +77,4 @@ class KTPExport implements FromCollection, WithHeadings, WithProperties, WithEve
             'title'          => 'Data KTP',
         ];
     }
-
 }
