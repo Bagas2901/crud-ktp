@@ -3,10 +3,13 @@
 
 Aplikasi CRUD KTP sederhana
 
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate --seed
+Clone
+- https://github.com/Bagas2901/crud-ktp.git
+- composer install
+- cp .env.example .env
+- php artisan key:generate
+- php artisan migrate --seed
+
 
 API
 - Menampilkan data 		            : /tampil
