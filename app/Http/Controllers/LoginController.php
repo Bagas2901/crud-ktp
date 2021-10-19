@@ -18,27 +18,34 @@ class LoginController extends Controller
     public function proses_login(Request $request)
     {
         request()->validate([
-        'username' => 'required',
-        'password' => 'required',
+            'username' => 'required',
+            'password' => 'required',
         ]);
 
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             if ($user->is_admin == '1') {
+                $request->session()->regenerate();
                 return redirect()->intended('ktp');
-            } else{
+            } else {
+                $request->session()->regenerate();
                 return redirect()->intended('ktp');
             }
             return redirect('/');
         }
-        return redirect('/')->withSuccess('Oppes! Silahkan Cek Inputanmu');
+        return redirect('/')->with('loginError', 'Opps! Silahkan Cek Username dan Password');
     }
 
     //logout
-    public function logout(Request $request) {
-        $request->session()->flush();
+    public function logout(Request $request)
+    {
         Auth::logout();
-        return Redirect('/');
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

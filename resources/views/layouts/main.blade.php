@@ -66,9 +66,12 @@
                                 {{ auth()->user()->name }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="logout" class="dropdown-item has-icon text-danger">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
+                            <form action="/logout" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item btn-icon-split btn-block has-icon text-danger">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -97,9 +100,12 @@
                     </ul>
 
                     <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-                        <a href="logout" class="btn btn-danger btn-lg btn-block btn-icon-split">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </a>
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-lg btn-block btn-icon-split">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
                     </div>
                 </aside>
             </div>

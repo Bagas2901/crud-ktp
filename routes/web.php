@@ -19,9 +19,9 @@ use App\Http\Controllers\UserController;
 //Route Index/Halaman Utama
 Route::get('/', [LoginController::class, 'index']);
 //Route Logout
-Route::get('logout', [LoginController::class, 'logout']);
+Route::post('/logout', [LoginController::class, 'logout']);
 //Route Proses Login
-Route::post('proses_login', [LoginController::class, 'proses_login']);
+Route::post('/proses_login', [LoginController::class, 'proses_login']);
 
 //Route KTP
 Route::get('/ktp', [KTPController::class, 'index'])->name('ktp')->middleware('cek_login:0,1');

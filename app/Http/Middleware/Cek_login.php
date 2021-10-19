@@ -15,17 +15,20 @@ class Cek_login
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$role)
     {
-        $roles = array_slice(func_get_args(), 2);
-
-        foreach ($roles as $role) { 
-            $user = Auth::user()->is_admin;
-            if( $user == $role){
-                return $next($request);
-            }
+        if (Auth::check() && in_array($request->user()->is_admin,$role)){
+            return $next($request);
         }
+        // $roles = array_slice(func_get_args(), 2);
 
-        return redirect('/')->with('error',"Anda tidak dapat mengakses halaman ini!");
+        // foreach ($roles as $role) {
+        //     $user = Auth::user();
+        //     if ($user->is_admin == $role) {
+        //         return $next($request);
+        //     }
+        // }
+
+        return redirect('/')->with('loginError', "Anda tidak dapat mengakses halaman ini!, Silahkan Login sebagai admin");
     }
 }
